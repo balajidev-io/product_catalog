@@ -36,7 +36,9 @@ def get_products():
         }
         for p in products
     ])
-
+@app.route('/')
+def home():
+    return "Welcome to the Product Catalog API!"
 # Add new product
 @app.route('/products', methods=['POST'])
 def add_product():
@@ -83,4 +85,5 @@ def update_product(id):
 
 
 if __name__ == '__main__':
+
     app.run(debug=True)
