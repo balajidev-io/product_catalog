@@ -36,9 +36,6 @@ def get_products():
         }
         for p in products
     ])
-@app.route('/')
-def home():
-    return "Welcome to the Product Catalog API!"
 # Add new product
 @app.route('/products', methods=['POST'])
 def add_product():
@@ -82,8 +79,20 @@ def update_product(id):
         return jsonify({"message": "Product updated successfully"})
     except (ValueError, TypeError):
         return jsonify({"error": "Invalid data types"}), 400
+# Path to the frontend directory (corrected)
+frontend_folder = os.path.abspath(os.path.join(os.path.dirname(_file_), '..', 'frontend'))
 
+# Serve the frontend index.html at root
+@app.route('/')
+def serve_index():
+    return send_from_directory(frontend_folder, 'index.html')
+
+# Serve static files (CSS, JS) from the frontend folder
+@app.route('/<path:filename>')
+def serve_static(filename):
+    return send_from_directory(frontend_folder, filename)
 
 if __name__ == '__main__':
 
     app.run(debug=True)
+
